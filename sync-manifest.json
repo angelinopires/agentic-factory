@@ -1,0 +1,324 @@
+{
+  "version": 1,
+  "updated_at": "2026-11-19T17:13:09-0300",
+  "ignored_upstreams": [
+    "$HOME/.claude/skills/antigravity-plan/SKILL.md",
+    "$HOME/.claude/skills/article-brainstorm/SKILL.md",
+    "$HOME/.claude/skills/article-create/SKILL.md",
+    "$HOME/.claude/skills/article-writing/SKILL.md",
+    "$HOME/.claude/skills/batch-brainstorm/SKILL.md",
+    "$HOME/.claude/skills/copy-brainstorm/SKILL.md",
+    "$HOME/.claude/skills/copy-create/SKILL.md",
+    "$HOME/.claude/skills/ds-aesthetic/SKILL.md",
+    "$HOME/.claude/skills/find-skills/SKILL.md",
+    "$HOME/.claude/skills/learned/SKILL.md",
+    "$HOME/.claude/skills/maestri/SKILL.md",
+    "$HOME/.claude/skills/maestri-chat/SKILL.md",
+    "$HOME/.claude/skills/maestri-computer/SKILL.md",
+    "$HOME/.claude/skills/maestri-manager/SKILL.md",
+    "$HOME/.claude/skills/maestri-portal/SKILL.md",
+    "$HOME/.claude/skills/maestri-portal-devices/SKILL.md",
+    "$HOME/.claude/skills/maestri-routines/SKILL.md",
+    "$HOME/.claude/skills/maestri-workspace/SKILL.md",
+    "$HOME/.claude/skills/seo-audit/SKILL.md",
+    "$HOME/.claude/skills/seo-explore/SKILL.md",
+    "$HOME/.claude/skills/sync-agentic-factory/SKILL.md",
+    "$HOME/.claude/skills/synced/SKILL.md"
+  ],
+  "entries": [
+    {
+      "target": "board/README.md",
+      "upstream": "$WORKSPACE/.maestri/board/README.md",
+      "category": "board",
+      "upstream_sha256": "86aefb3601facd9c36ce719961bfb5b795db71f604b01f1ef2d7df98b3f8cda7"
+    },
+    {
+      "target": "board/core.md",
+      "upstream": "$WORKSPACE/.maestri/board/core.md",
+      "category": "board",
+      "upstream_sha256": "ff8ddeaa5c4d98d1192a47e8ed850360233311b7b2977560fdb43b2250b6821c"
+    },
+    {
+      "target": "board/manager.md",
+      "upstream": "$WORKSPACE/.maestri/board/manager.md",
+      "category": "board",
+      "upstream_sha256": "d7650b5a6f18072bc70963804cbfee8fa718fb1b22be4dd3ef5c1c988a713fdb"
+    },
+    {
+      "target": "board/explorer.md",
+      "upstream": "$WORKSPACE/.maestri/board/explorer.md",
+      "category": "board",
+      "upstream_sha256": "e72654e04aa870d6c4695dc6182a7de642ba455fcf3d27f4f75b7c264987d998"
+    },
+    {
+      "target": "board/designer.md",
+      "upstream": "$WORKSPACE/.maestri/board/designer.md",
+      "category": "board",
+      "upstream_sha256": "3c750723441231b1c7a302d33b1676b152b127d0ac3c2d3d2878d536117c32d5"
+    },
+    {
+      "target": "board/writer.md",
+      "upstream": "$WORKSPACE/.maestri/board/writer.md",
+      "category": "board",
+      "upstream_sha256": "2da7275d13aaf0cc5f647f958c0f9c7027a29bb434e09947ac7ca16e4e386dea"
+    },
+    {
+      "target": "board/dev.md",
+      "upstream": "$WORKSPACE/.maestri/board/dev.md",
+      "category": "board",
+      "upstream_sha256": "5c0b566b1ba67aaa8b8279ce78c4cdb83d5652fa9a5205c19b05fb0485ca70f3"
+    },
+    {
+      "target": "board/qa.md",
+      "upstream": "$WORKSPACE/.maestri/board/qa.md",
+      "category": "board",
+      "upstream_sha256": "6d55510b02434ea57315a082f04333cc33cd3f0cae0d170394c40f07c80e8b3c"
+    },
+    {
+      "target": "board/rollout.md",
+      "upstream": "$WORKSPACE/.maestri/board/rollout.md",
+      "category": "board",
+      "upstream_sha256": "4e87d47397a24571ecfe73ca28940c28466e72fd0e250a239eac7db53c70f490"
+    },
+    {
+      "target": "board/playbook.md",
+      "upstream": "$WORKSPACE/.maestri/board/playbook.md",
+      "category": "board",
+      "upstream_sha256": "7684b063f5ac10df3afc97f0896b397e6e260b1caddc0fa5340ed66af9b61dc7"
+    },
+    {
+      "target": "board/qa-manual.md",
+      "upstream": "$WORKSPACE/.maestri/board/qa-manual.md",
+      "category": "board",
+      "upstream_sha256": "2b28d3a16eb3f29113b6101b4c02db22cf09f728bc1bde16c2382ad2520c3de8"
+    },
+    {
+      "target": "board/rollout-manual.md",
+      "upstream": "$WORKSPACE/.maestri/board/rollout-manual.md",
+      "category": "board",
+      "upstream_sha256": "5856db35dd0b914ef48f5a20cd93a1f642592ccf53af4f6008fed71e045961f2"
+    },
+    {
+      "target": "board/map.md",
+      "upstream": "$WORKSPACE/.maestri/board/mapa.md",
+      "category": "board",
+      "upstream_sha256": "e829a1da419db8830efcfea0231ac4c6f95322676bf6ced2771902a66ae3b4eb"
+    },
+    {
+      "target": "board/plan.md",
+      "upstream": "$WORKSPACE/.maestri/board/plano.md",
+      "category": "board",
+      "upstream_sha256": "277c00a432091474f73b05e4a617e4d2853aeb370ab7a8f1cb1dae2b3749280d"
+    },
+    {
+      "target": "docs/case-study-seutrampo/cases.md",
+      "upstream": "$WORKSPACE/.maestri/board/casos.md",
+      "category": "case-study",
+      "upstream_sha256": "38aee3b14dd507cbbea236494ec49f48356f311ab49c97e72c4b5ab69490518f"
+    },
+    {
+      "target": "scripts/order.py",
+      "upstream": "$WORKSPACE/.maestri/scripts/ordem.py",
+      "category": "script",
+      "upstream_sha256": "b66ed69ea133e8d0836f322427763b7ca049bd77bb9146a59a9560d0ce0e1c6a"
+    },
+    {
+      "target": "scripts/qa-proof.py",
+      "upstream": "$WORKSPACE/.maestri/scripts/qa-proof.py",
+      "category": "script",
+      "upstream_sha256": "db60d1f8723f6b6a7236551211ba380a02ec76239a7a0ac6d09819575c7f45a7"
+    },
+    {
+      "target": "scripts/role-check.py",
+      "upstream": "$WORKSPACE/.maestri/scripts/role-check.py",
+      "category": "script",
+      "upstream_sha256": "a0234f69a0f21e906c0ff54a16e71aab13b8a3a1cc2be3024fa230c9c3db8710"
+    },
+    {
+      "target": "scripts/prd-cost.py",
+      "upstream": "$WORKSPACE/.maestri/scripts/prd-cost.py",
+      "category": "script",
+      "upstream_sha256": "d0eaad426ce08e90581abad22355baeb5e1cf6b90736874354a1b981ff596652"
+    },
+    {
+      "target": "scripts/agy-trust.py",
+      "upstream": "$WORKSPACE/.maestri/scripts/agy-trust.py",
+      "category": "script",
+      "upstream_sha256": "34c20cfb0aa3d05244dd4c9aea0e4909738ce423f639e094ddc947e5b174a6fa"
+    },
+    {
+      "target": "scripts/manager-context.sh",
+      "upstream": "$WORKSPACE/.maestri/scripts/manager-context.sh",
+      "category": "script",
+      "upstream_sha256": "4caf78ae6d147863b93dd60ddec572d90ca4423c25f4b9ea33f6f195d9d93867"
+    },
+    {
+      "target": "hooks/pre-tool-use.js",
+      "upstream": "$WORKSPACE/.agents/hooks/pre-tool-use.js",
+      "category": "hook",
+      "upstream_sha256": "49fc71be581471e02f41662be6b1c92ed05d8ffe0db88e2105e88c17a402d165"
+    },
+    {
+      "target": "hooks/context-ceiling.py",
+      "upstream": "$HOME/.claude/scripts/hooks/context-ceiling.py",
+      "category": "hook",
+      "upstream_sha256": "cb6c6c8584b696b38162e951a4fe7806427ff626f68b5c3e458b7889658822df"
+    },
+    {
+      "target": "hooks/prod-guard.py",
+      "upstream": "$WORKSPACE/projects/seu-trampo-ai/.claude/hooks/prod-guard.py",
+      "category": "hook",
+      "upstream_sha256": "46b49ec18c5c8c1b42dfca152a80268e487ce7fcd7930a3b335dcf5add41ce48"
+    },
+    {
+      "target": "templates/planning/CLAUDE.md",
+      "upstream": "$WORKSPACE/planning/CLAUDE.md",
+      "category": "template",
+      "upstream_sha256": "bcbf5024f3f185d0794485b18b66a2a679489553a27423fd3fa7f8ac819e1cb4"
+    },
+    {
+      "target": "templates/planning/_template_prd.md",
+      "upstream": "$WORKSPACE/planning/_template_prd.md",
+      "category": "template",
+      "upstream_sha256": "fc1be595369573d0cc7902ab0908dea734acf40304b6b7ea96de78cbeb8d253a"
+    },
+    {
+      "target": "templates/planning/_template_epic.md",
+      "upstream": "$WORKSPACE/planning/_template_epic.md",
+      "category": "template",
+      "upstream_sha256": "04703b366cf2dfd01c44e19a9966ea749de27d6414e851cc7f24dbefc8a670db"
+    },
+    {
+      "target": "skills/canvas-manager/SKILL.md",
+      "upstream": "$HOME/.claude/skills/canvas-manager/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "2e239d48485bfb7f228a0deaf69f1041d866beb4a38d114c11ffeeaee7f86b98"
+    },
+    {
+      "target": "skills/canvas-retro/SKILL.md",
+      "upstream": "$HOME/.claude/skills/canvas-retro/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "7803f328a50191d386fef2d4ab760ddf3f30e76c9533daa536aad91d35061136"
+    },
+    {
+      "target": "skills/canvas-sprint/SKILL.md",
+      "upstream": "$HOME/.claude/skills/canvas-sprint/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "0d12ffc1725538b4c19ecd510ca08359da9c45cc98d203c6c08aadd0f0547802"
+    },
+    {
+      "target": "skills/prd/SKILL.md",
+      "upstream": "$HOME/.claude/skills/prd/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "a0c68c2dbaaa5c3c869223ce0977acbc29d38ddaa81b38d2381874591e3cbc85"
+    },
+    {
+      "target": "skills/prd-run/SKILL.md",
+      "upstream": "$HOME/.claude/skills/prd-run/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "6897043f2fff38fd870632db4470fa36ebbfb7586096fbf494e37171267ddc35"
+    },
+    {
+      "target": "skills/prd-ship/SKILL.md",
+      "upstream": "$HOME/.claude/skills/prd-ship/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "83e17b3218ad047c5834125cc63c9997a982a12014d735fd939bfb3f02a3b3d3"
+    },
+    {
+      "target": "skills/prd-demo/SKILL.md",
+      "upstream": "$HOME/.claude/skills/prd-demo/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "e5e7cae64d9f971e0cbacb8f943b6f5d214954486ab08a7f4af6f6125ece3205"
+    },
+    {
+      "target": "skills/epic-ship/SKILL.md",
+      "upstream": "$HOME/.claude/skills/epic-ship/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "239a08fcd39a4b7f0a541b3b2cb6cee82b2c0956842b7605eaa570d2bf284b35"
+    },
+    {
+      "target": "skills/commit/SKILL.md",
+      "upstream": "$HOME/.claude/skills/commit/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "f07861ba1c34fa091b780d562ca530ead08d2a193bd58733e0ae87dca036fe1c"
+    },
+    {
+      "target": "skills/handover/SKILL.md",
+      "upstream": "$HOME/.claude/skills/handover/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "85ba522fd74071f5759270c08c7f21e6fa163de24be6b7981c3f1f08312f98ac"
+    },
+    {
+      "target": "skills/verify-claims/SKILL.md",
+      "upstream": "$HOME/.claude/skills/verify-claims/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "80be7f47985c54770b60a324db8e4573ad6eb85d7ba6d6d4b97ada252fa36318"
+    },
+    {
+      "target": "skills/verify-ui/SKILL.md",
+      "upstream": "$HOME/.claude/skills/verify-ui/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "d070b10690417df2b3b58aaa335126cd8405b98f5324793ea55290070e190c86"
+    },
+    {
+      "target": "skills/infra-preflight/SKILL.md",
+      "upstream": "$HOME/.claude/skills/infra-preflight/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "af5388b87915b12af4816a39bfa4d9baf172d3ad6dddab198a9b040f830a5a52"
+    },
+    {
+      "target": "skills/design-port/SKILL.md",
+      "upstream": "$HOME/.claude/skills/design-port/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "484b03d5ba996efa4c89e6a1a57dcf09d24d39d0d5b977e8ecad1268847a5dcb"
+    },
+    {
+      "target": "skills/grill-me/SKILL.md",
+      "upstream": "$HOME/.claude/skills/grill-me/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "505afaa2d4810de41d0de6d28dce986e6b0f7dfdc1979ad98a16180f895876fc"
+    },
+    {
+      "target": "skills/product-eval/SKILL.md",
+      "upstream": "$HOME/.claude/skills/product-eval/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "11f3868838d630f521ef9165d8bcfd36f1629f95a97d640cf439245367892f60"
+    },
+    {
+      "target": "skills/audit-codebase/SKILL.md",
+      "upstream": "$HOME/.claude/skills/audit-codebase/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "2029cc45652a9f1d15d48766079082a3996f2af264bfbec554602f5f873bf586"
+    },
+    {
+      "target": "skills/design-decide/SKILL.md",
+      "upstream": "$HOME/.claude/skills/design-decide/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "be7b90504b1100ca18290d99545ec48baa29d5d22b13e0de55a765b9f880a14a"
+    },
+    {
+      "target": "skills/ui-ux-analysis/SKILL.md",
+      "upstream": "$HOME/.claude/skills/ui-ux-analysis/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "9b239c483670a98675e317841eee0982cd0ea98fae6b49716134e4f8cfa89b37"
+    },
+    {
+      "target": "skills/concise-output/SKILL.md",
+      "upstream": "$HOME/.claude/skills/concise-output/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "ab4a1bb9182def2ebf22496e4e725591b8057888993a68e925619d4788d818b7"
+    },
+    {
+      "target": "skills/humanizer/SKILL.md",
+      "upstream": "$HOME/.claude/skills/humanizer/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "85618b50f189c0ff49858e5e2ed6aea04fef992a88b072d0980f78a7da3b18e8"
+    },
+    {
+      "target": "skills/humanizer-compact/SKILL.md",
+      "upstream": "$HOME/.claude/skills/humanizer-compact/SKILL.md",
+      "category": "skill",
+      "upstream_sha256": "4546d9281fd94c9811cabfeb1c0a70a819b8abc00e439ce9b13144c49122d642"
+    }
+  ]
+}

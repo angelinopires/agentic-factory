@@ -1,0 +1,122 @@
+{
+  "project_name": "my-project",
+  "language": "en",
+  "topology": "workspace",
+  "paths": {
+    "workspace_root": ".",
+    "project_dir": "./projects/my-project",
+    "planning_dir": "./planning/my-project",
+    "runs_dir": "./planning/my-project/runs",
+    "board_dir": "./.maestri/board"
+  },
+  "maestri": {
+    "workspace_name": "my-project",
+    "group": "Boards"
+  },
+  "roles": {
+    "core": ["Manager", "Explorer", "Dev", "QA"],
+    "split_dev": false,
+    "dev_front_dir": "./projects/my-project/web",
+    "dev_back_dir": "./projects/my-project/server",
+    "enable_designer": true,
+    "enable_writer": false,
+    "enable_rollout": false,
+    "enable_blind_reviewer": true
+  },
+  "routing": {
+    "mode": "multi-harness",
+    "installed_clis": ["claude", "codex", "agy"],
+    "assignments": {
+      "Manager": {
+        "preset": "Claude Code",
+        "cli": "claude",
+        "model": "claude-opus-5-5",
+        "tier": "high",
+        "flags": "--effort medium --permission-mode auto --remote-control \"Manager\""
+      },
+      "Explorer": {
+        "preset": "Antigravity",
+        "cli": "agy",
+        "model": "gemini-4-neon-high",
+        "tier": "medium",
+        "fallback": {
+          "preset": "Claude Code",
+          "cli": "claude",
+          "model": "claude-sonnet-5-5"
+        }
+      },
+      "Designer": {
+        "preset": "Codex",
+        "cli": "codex",
+        "model": "gpt-6.1-sol",
+        "tier": "medium",
+        "fallback": {
+          "preset": "Antigravity",
+          "cli": "agy",
+          "model": "gemini-4-neon-high"
+        }
+      },
+      "Writer": {
+        "preset": "Antigravity",
+        "cli": "agy",
+        "model": "gemini-4-neon-high",
+        "tier": "medium",
+        "fallback": {
+          "preset": "Claude Code",
+          "cli": "claude",
+          "model": "claude-sonnet-5-5"
+        }
+      },
+      "Dev": {
+        "preset": "Codex",
+        "cli": "codex",
+        "model": "gpt-6.1-sol",
+        "tier": "medium",
+        "fallback": {
+          "preset": "Antigravity",
+          "cli": "agy",
+          "model": "claude-sonnet-5-5-high"
+        }
+      },
+      "QA": {
+        "preset": "Claude Code",
+        "cli": "claude",
+        "model": "claude-sonnet-5-5",
+        "tier": "browser",
+        "flags": "--chrome --strict-mcp-config"
+      },
+      "Rollout": {
+        "preset": "Claude Code",
+        "cli": "claude",
+        "model": "claude-sonnet-5-5",
+        "tier": "medium"
+      },
+      "Reviewer": {
+        "preset": "Antigravity",
+        "cli": "agy",
+        "model": "gemini-4-argon-medium",
+        "tier": "medium"
+      }
+    }
+  },
+  "qa_proof": {
+    "auto_discover_lockfiles": true,
+    "dep_files": []
+  },
+  "context_ceiling": {
+    "ceiling_tokens": 200000,
+    "warn_margin_tokens": 30000,
+    "manager_mode": "log"
+  },
+  "production": {
+    "markers": [
+      "docker-compose.prod.yml",
+      "maestri ask \"vps\"",
+      "maestri ask vps"
+    ],
+    "hosts": [],
+    "domains": [],
+    "paths": [],
+    "health_url": ""
+  }
+}

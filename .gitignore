@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+board.config.json
+.maestri/
+runs/
+*.tmp
+.order.lock
