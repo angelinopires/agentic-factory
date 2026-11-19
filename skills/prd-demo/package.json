@@ -1,0 +1,8 @@
+{
+  "name": "prd-demo",
+  "private": true,
+  "description": "Playwright for the prd-demo skill. Lives here so no project needs it as a dependency.",
+  "dependencies": {
+    "playwright": "1.63.0"
+  }
+}
