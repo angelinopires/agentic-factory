@@ -1,0 +1,37 @@
+{
+  "enabledPlugins": {
+    "design@knowledge-work-plugins": false,
+    "design@synced": false,
+    "copywriting-kit@synced": false,
+    "devil-advocate@synced": false,
+    "ponytail@ponytail": false,
+    "frontend-design@claude-plugins-official": false
+  },
+  "permissions": {
+    "allow": [
+      "Bash(docker compose logs *)",
+      "Bash(docker compose ps *)",
+      "Bash(docker compose ps)",
+      "Bash(docker compose exec -T *)",
+      "Bash(curl http://localhost:*)",
+      "Bash(curl -s http://localhost:*)",
+      "Bash(curl -sS http://localhost:*)",
+      "Bash(maestri *)",
+      "Bash(npx vitest *)",
+      "Bash(npx playwright *)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(uv run *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git status *)",
+      "Bash(git show *)",
+      "Bash(git ls-files *)",
+      "Bash(grep *)",
+      "Bash(sed -n *)",
+      "Bash(shasum *)",
+      "Bash(python3 {{WORKSPACE_ROOT}}/scripts/qa-proof.py *)",
+      "Bash(python3 {{WORKSPACE_ROOT}}/scripts/order.py *)"
+    ]
+  }
+}

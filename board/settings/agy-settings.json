@@ -1,0 +1,29 @@
+{
+  "enableTerminalSandbox": true,
+  "permissions": {
+    "allow": [
+      "command(docker)",
+      "command(maestri)",
+      "command(git)",
+      "command(uv)",
+      "command(npm)",
+      "command(npx)",
+      "command(python3)",
+      "command(rg)",
+      "command(grep)",
+      "command(ls)",
+      "command(cat)",
+      "command(head)",
+      "command(tail)",
+      "command(wc)",
+      "command(cd)"
+    ],
+    "deny": [
+      "command(docker compose down)",
+      "command(git push)",
+      "command(sudo)",
+      "command(rm -rf)"
+    ]
+  },
+  "agentMode": "auto"
+}

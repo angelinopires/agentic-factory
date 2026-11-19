@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Agentic Factory — pre-push hook template
+# Runs fast verification checks before pushing to remote.
+set -euo pipefail
+
+if [ -f "Makefile" ] && grep -q "^test:" Makefile; then
+  make test
+elif [ -d "tests" ] && command -v python3 >/dev/null 2>&1; then
+  python3 -m unittest discover -s tests -p "test_*.py"
+fi
+
+exit 0

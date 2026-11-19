@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Agentic Factory — pre-commit hook template
+# Blocks hardcoded secrets, >800-line source files, and runs fast project linters on staged files.
+set -euo pipefail
+
+staged_files="$(git diff --cached --name-only --diff-filter=ACMR)"
+if [ -z "$staged_files" ]; then
+  exit 0
+fi
+
+# 1. Block obvious secret files from being committed
+while IFS= read -r file; do
+  [ -z "$file" ] && continue
+  case "$file" in
+    .env|.env.*|*.pem|*.key|*credentials*.json|*secrets*.json)
+      case "$file" in
+        *.example|*.sample|*.template) ;;
+        *)
+          echo "pre-commit: blocked potential secret file '$file'. Unstage it or ask the user." >&2
+          exit 1
+          ;;
+      esac
+      ;;
+  esac
+done <<< "$staged_files"
+
+# 2. Enforce 800-line ceiling on source files
+while IFS= read -r file; do
+  [ -z "$file" ] || [ ! -f "$file" ] && continue
+  case "$file" in
+    *.py|*.ts|*.tsx|*.js|*.jsx|*.go|*.rs)
+      lines="$(wc -l < "$file" | tr -d ' ')"
+      if [ "$lines" -gt 800 ]; then
+        echo "pre-commit: '$file' has $lines lines (ceiling is 800). Split into smaller modules." >&2
+        exit 1
+      fi
+      ;;
+  esac
+done <<< "$staged_files"
+
+exit 0

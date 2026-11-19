@@ -1,0 +1,17 @@
+{
+  "permissions": {},
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"{{WORKSPACE_ROOT}}/hooks/prod-guard.py\"",
+            "statusMessage": "Checking command against production guardrails..."
+          }
+        ]
+      }
+    ]
+  }
+}
