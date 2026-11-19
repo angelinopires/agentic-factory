@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agentic Factory — Interactive Architecture &amp; Governance Explorer</title>
+  <style>
+    :root {
+      --bg-app: #090d16;
+      --bg-surface: #111827;
+      --bg-elevated: #1e293b;
+      --bg-code: #0b1120;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --border-subtle: #1f2937;
+      --border-strong: #334155;
+      --accent-indigo: #818cf8;
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #f87171;
+      --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    html[data-theme="light"] {
+      --bg-app: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-elevated: #f1f5f9;
+      --bg-code: #0f172a;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --accent-indigo: #4f46e5;
+      --accent-cyan: #0284c7;
+      --accent-emerald: #059669;
+      --accent-amber: #d97706;
+      --accent-rose: #dc2626;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-app);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      padding: 24px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 24px;
+    }
+
+    .title-group h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--bg-elevated);
+      color: var(--accent-cyan);
+      border: 1px solid var(--border-strong);
+    }
+
+    .title-group p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-surface);
+      padding: 5px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .tab-btn {
+      background: transparent;
+      color: var(--text-secondary);
+      border: none;
+      padding: 8px 14px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .tab-btn.active {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .theme-btn {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-strong);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .view-panel {
+      display: none;
+    }
+
+    .view-panel.active {
+      display: block;
+    }
+
+    /* VIEW 1: TOPOLOGY & CORDS */
+    .topology-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px) {
+      .topology-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .board-canvas {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .canvas-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .leader-row {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .lane-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .lane-box {
+      background: var(--bg-app);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .node-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-strong);
+      border-radius: 9px;
+      padding: 12px 14px;
+      cursor: pointer;
+      text-align: left;
+      transition: transform 0.12s ease, border-color 0.12s ease;
+      position: relative;
+    }
+
+    .node-card:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent-cyan);
+    }
+
+    .node-card.selected {
+      border-color: var(--accent-indigo);
+      box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.25);
+    }
+
+    .node-card .node-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .node-card .node-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .node-card .node-model {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-cyan);
+    }
+
+    .node-card .node-summary {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .cord-banner {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--accent-emerald);
+      font-size: 12.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .inspector-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 22px;
+      position: sticky;
+      top: 24px;
+    }
+
+    .inspector-header {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+    }
+
+    .inspector-header h2 {
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .inspector-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .inspector-section {
+      margin-bottom: 16px;
+    }
+
+    .inspector-section h3 {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .inspector-section p, .inspector-section li {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+    }
+
+    .inspector-section ul {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    pre.code-block {
+      background: var(--bg-code);
+      color: #e2e8f0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      overflow-x: auto;
+      border: 1px solid #1e293b;
+      line-height: 1.45;
+    }
+
+    /* VIEW 2: PRD LIFECYCLE */
+    .pipeline-steps {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 980px) {
+      .pipeline-steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .step-btn {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .step-btn.active {
+      border-color: var(--accent-cyan);
+      background: var(--bg-elevated);
+    }
+
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .step-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: block;
+    }
+
+    .step-sub {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      display: block;
+    }
+
+    .stage-detail-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .stage-detail-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* VIEW 3: ROUTING & HOOKS */
+    .routing-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .mode-switch {
+      display: flex;
+      gap: 8px;
+    }
+
+    .mode-btn {
+      background: var(--bg-app);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-strong);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .mode-btn.active {
+      background: var(--accent-indigo);
+      color: #ffffff;
+      border-color: var(--accent-indigo);
+    }
+
+    table.routing-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      font-size: 13.5px;
+    }
+
+    table.routing-table th, table.routing-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    table.routing-table th {
+      background: var(--bg-elevated);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+    }
+
+    .hooks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .hooks-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hook-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .hook-card h3 {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--accent-rose);
+      margin-bottom: 8px;
+    }
+
+    .hook-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title-group">
+        <h1>
+          Agentic Factory Architecture
+          <span class="badge">Maestri Single-Board v1</span>
+        </h1>
+        <p>Interactive topology, SHA-256 on-disk state machine, and multi-harness routing explorer.</p>
+      </div>
+      <div class="controls">
+        <div class="tabs" role="tablist">
+          <button class="tab-btn active" data-tab="view-topology" role="tab">1. Board Topology &amp; Cords</button>
+          <button class="tab-btn" data-tab="view-lifecycle" role="tab">2. PRD Lifecycle &amp; Gates</button>
+          <button class="tab-btn" data-tab="view-routing" role="tab">3. Multi-AI Routing &amp; Hooks</button>
+        </div>
+        <button class="theme-btn" id="themeToggle" type="button">Light / Dark</button>
+      </div>
+    </header>
+
+    <!-- VIEW 1: BOARD TOPOLOGY & CORDS -->
+    <section id="view-topology" class="view-panel active">
+      <div class="topology-grid">
+        <div class="board-canvas">
+          <div class="canvas-section-label">
+            <span>Command &amp; Blind Review Layer</span>
+            <span>Click any terminal node to inspect</span>
+          </div>
+          <div class="leader-row">
+            <div class="node-card" data-node="Human">
+              <div class="node-head">
+                <span class="node-name">Human Owner</span>
+                <span class="node-model">Product Lead</span>
+              </div>
+              <div class="node-summary">Approves plan.md, writes authorization.md quotes, runs git push.</div>
+            </div>
+            <div class="node-card selected" data-node="Manager">
+              <div class="node-head">
+                <span class="node-name">Manager</span>
+                <span class="node-model">Claude Opus 5.5</span>
+              </div>
+              <div class="node-summary">Single leader (Maestro mode). Connected to all terminals. Zero code edits.</div>
+            </div>
+            <div class="node-card" data-node="Reviewer">
+              <div class="node-head">
+                <span class="node-name">Blind Reviewer</span>
+                <span class="node-model">AGY Gemini 4 Argon</span>
+              </div>
+              <div class="node-summary">Unbiased 2nd opinion on trade-offs &amp; blind dual research partner.</div>
+            </div>
+          </div>
+
+          <div class="lane-columns">
+            <div class="lane-box">
+              <div class="canvas-section-label">
+                <span>Product Team (`planning/`)</span>
+              </div>
+              <div class="node-card" data-node="Explorer">
+                <div class="node-head">
+                  <span class="node-name">Explorer</span>
+                  <span class="node-model">Gemini 4 Neon / Sonnet</span>
+                </div>
+                <div class="node-summary">Codebase discovery, writes `/prd`, runs `/verify-claims`, closes `/prd-ship`.</div>
+              </div>
+              <div class="node-card" data-node="Designer">
+                <div class="node-head">
+                  <span class="node-name">Designer</span>
+                  <span class="node-model">Codex GPT-6.1 Sol</span>
+                </div>
+                <div class="node-summary">2–3 static HTML options from problem brief before UI PRDs go Ready.</div>
+              </div>
+              <div class="node-card" data-node="Writer">
+                <div class="node-head">
+                  <span class="node-name">Writer</span>
+                  <span class="node-model">Gemini 4 Neon / Sonnet</span>
+                </div>
+                <div class="node-summary">UI microcopy, domain vocabulary, `/humanizer` &amp; `/humanizer-compact`.</div>
+              </div>
+            </div>
+
+            <div class="lane-box">
+              <div class="canvas-section-label">
+                <span>Engineering Team (`prd/&lt;n&gt;`)</span>
+              </div>
+              <div class="node-card" data-node="DevFront">
+                <div class="node-head">
+                  <span class="node-name">Dev Front</span>
+                  <span class="node-model">Codex GPT-6.1 Sol</span>
+                </div>
+                <div class="node-summary">Frontend TDD (`web/`), Design System first, `qa-proof.py record`.</div>
+              </div>
+              <div class="node-card" data-node="DevBack">
+                <div class="node-head">
+                  <span class="node-name">Dev Back</span>
+                  <span class="node-model">Codex GPT-6.1 Sol</span>
+                </div>
+                <div class="node-summary">Backend TDD (`server/`), migrations, API contracts, `qa-proof.py record`.</div>
+              </div>
+              <div class="node-card" data-node="QA">
+                <div class="node-head">
+                  <span class="node-name">QA</span>
+                  <span class="node-model">Sonnet 5.5 · --chrome</span>
+                </div>
+                <div class="node-summary">Stages A1 (machine), A2 (`qa-proof.py verify`), B (Portal 375/768/1280).</div>
+              </div>
+              <div class="node-card" data-node="Rollout">
+                <div class="node-head">
+                  <span class="node-name">Rollout ⇄ VPS</span>
+                  <span class="node-model">Sonnet 5.5 + prod-guard</span>
+                </div>
+                <div class="node-summary">Runs `/infra-preflight`, post-deploy checks, read-only prod diagnostics.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cord-banner">
+            <div>
+              <strong>Direct QA ⇄ Dev Cord (`maestri connect "QA" "Dev Front"`)</strong><br />
+              QA and Devs resolve HOLD findings directly. Manager only enters on PASS, a product decision, the 3rd loop, or context ceiling.
+            </div>
+            <span class="badge">Zero Manager Bottleneck</span>
+          </div>
+        </div>
+
+        <!-- Inspector Panel -->
+        <aside class="inspector-card" id="nodeInspector">
+          <div class="inspector-header">
+            <h2 id="inspTitle">Manager Terminal</h2>
+            <div class="inspector-meta">
+              <span class="badge" id="inspModel">Claude Opus 5.5 (effort medium)</span>
+              <span class="badge" id="inspRoleFile">board/core.md + board/manager.md</span>
+            </div>
+          </div>
+          <div class="inspector-section">
+            <h3>Responsibility &amp; Boundaries</h3>
+            <p id="inspDesc"></p>
+          </div>
+          <div class="inspector-section">
+            <h3>Active Skills &amp; Governance Scripts</h3>
+            <ul id="inspSkills"></ul>
+          </div>
+          <div class="inspector-section">
+            <h3>Maestri Cords &amp; Reset Policy</h3>
+            <p id="inspReset"></p>
+          </div>
+          <div class="inspector-section">
+            <h3>Recruit / Launch Command</h3>
+            <pre class="code-block" id="inspCmd"></pre>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- VIEW 2: PRD LIFECYCLE & GATES -->
+    <section id="view-lifecycle" class="view-panel">
+      <div class="pipeline-steps" id="pipelineSteps">
+        <button class="step-btn active" data-stage="0">
+          <span class="step-num">STAGE 01</span>
+          <span class="step-title">Discovery &amp; Plan</span>
+          <span class="step-sub">/grill-me → plan.md</span>
+        </button>
+        <button class="step-btn" data-stage="1">
+          <span class="step-num">STAGE 02</span>
+          <span class="step-title">Executable PRD</span>
+          <span class="step-sub">/prd + /verify-claims</span>
+        </button>
+        <button class="step-btn" data-stage="2">
+          <span class="step-num">STAGE 03</span>
+          <span class="step-title">Sealed Order</span>
+          <span class="step-sub">order.py open (SHA-256)</span>
+        </button>
+        <button class="step-btn" data-stage="3">
+          <span class="step-num">STAGE 04</span>
+          <span class="step-title">TDD &amp; QA Proof</span>
+          <span class="step-sub">/prd-run + qa-proof.py</span>
+        </button>
+        <button class="step-btn" data-stage="4">
+          <span class="step-num">STAGE 05</span>
+          <span class="step-title">QA A1/A2/B &amp; HOLD</span>
+          <span class="step-sub">Direct QA⇄Dev Loop</span>
+        </button>
+        <button class="step-btn" data-stage="5">
+          <span class="step-num">STAGE 06</span>
+          <span class="step-title">Ship &amp; Kaizen</span>
+          <span class="step-sub">/prd-ship + /canvas-retro</span>
+        </button>
+      </div>
+
+      <div class="stage-detail-grid">
+        <div>
+          <span class="badge" id="stageOwnerBadge">Owner: Manager + Explorer + Designer</span>
+          <h2 id="stageTitle" style="font-size: 20px; margin: 10px 0;">Stage 1 — Discovery &amp; 1-Page Plan (`plan.md`)</h2>
+          <p id="stageSummary" style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px;"></p>
+          <div class="inspector-section">
+            <h3>Deterministic Gate Conditions</h3>
+            <ul id="stageGates"></ul>
+          </div>
+          <div class="inspector-section">
+            <h3>Incident That Created This Gate</h3>
+            <p id="stageIncident" style="color: var(--accent-amber);"></p>
+          </div>
+        </div>
+        <div>
+          <div class="inspector-section">
+            <h3>On-Disk Artifact &amp; CLI Verification</h3>
+            <pre class="code-block" id="stageCode"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: MULTI-AI ROUTING & HOOKS -->
+    <section id="view-routing" class="view-panel">
+      <div class="routing-toolbar">
+        <div>
+          <h2 style="font-size: 17px; font-weight: 700;">Adaptive Provider Routing (`diagnose.py` → `compile-board.py`)</h2>
+          <p style="font-size: 13px; color: var(--text-secondary);">Toggle between Multi-Harness mode (2+ AI CLIs installed) and Single-Harness degradation (1 AI CLI tier-mapped).</p>
+        </div>
+        <div class="mode-switch">
+          <button class="mode-btn active" data-routing="multi">Multi-Harness Mode (Claude + Codex + AGY)</button>
+          <button class="mode-btn" data-routing="single">Single-Harness Mode (1 CLI Tier-Mapped)</button>
+        </div>
+      </div>
+
+      <table class="routing-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Primary Harness &amp; Model</th>
+            <th>Quota Fallback</th>
+            <th>Research &amp; Review Behavior</th>
+          </tr>
+        </thead>
+        <tbody id="routingTableBody"></tbody>
+      </table>
+
+      <div class="hooks-grid">
+        <div class="hook-card">
+          <h3>hooks/pre-tool-use.js</h3>
+          <p>Intercepts destructive shell and git actions before execution across every harness.</p>
+          <pre class="code-block">Blocked flags &amp; commands:
+• git push / git commit --amend
+• --no-verify / core.hooksPath=
+• docker compose down
+• rm -rf / sudo
+• Warns on files &gt; 800 lines</pre>
+        </div>
+        <div class="hook-card">
+          <h3>hooks/context-ceiling.py</h3>
+          <p>Prevents 960k-token runaway sessions by reading the live JSONL transcript tail on every tool call.</p>
+          <pre class="code-block">Thresholds (default 200k):
+• 170k tokens: 1x warning injected
+• 200k tokens: hard permission deny
+Exemptions at ceiling:
+• maestri ask / order.py report
+• Write/Edit inside runs/&lt;prd&gt;/</pre>
+        </div>
+        <div class="hook-card">
+          <h3>hooks/prod-guard.py</h3>
+          <p>Reads `production.markers` from `board.config.json` and blocks direct database writes or destructive ops.</p>
+          <pre class="code-block">Blocked against prod markers:
+• Direct SQL / DDL / psql writes
+• Destructive container/volume ops
+• Unsanctioned SSH mutations
+Enforces read-only Rollout tier.</pre>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const NODE_DATA = {
+      Human: {
+        title: "Human Owner (Product & Final Authority)",
+        model: "Developer / Lead",
+        roleFile: "runs/<prd>/authorization.md",
+        desc: "Talks exclusively with the Manager terminal. Approves 1-page plans (plan.md), adjudicates residual trade-offs after blind review, authorizes PRD execution via exact quotes, and owns git push and destructive deletions.",
+        skills: [
+          "Approves 1-page plan.md and static HTML design previews before PRD coding starts",
+          "Provides timestamped dispatch authorization stored in runs/<prd>/authorization.md",
+          "Reviews end-to-end visual delivery table and runs git push"
+        ],
+        reset: "Human never touches subordinate terminals directly; ghost prompt suggestions in subordinate inputs are ignored.",
+        cmd: "# The human launches only the Manager terminal manually (Maestro mode ON):\nclaude --model claude-opus-5-5 --effort medium --permission-mode auto --remote-control \"Manager\""
+      },
+      Manager: {
+        title: "Manager Terminal (Single Board Leader)",
+        model: "Claude Opus 5.5 · Maestro",
+        roleFile: "board/core.md + board/manager.md",
+        desc: "The sole chief of product and engineering. Stress-tests ideas via /grill-me, coordinates discovery across Explorer/Designer/Writer, gates PRD readiness, dispatches phased orders via order.py, and merges branches after Human OK.",
+        skills: [
+          "/grill-me, /canvas-manager, /canvas-retro, /canvas-sprint",
+          "scripts/order.py (open, check, reconcile) & scripts/prd-cost.py",
+          "scripts/role-check.py & scripts/manager-context.sh"
+        ],
+        reset: "Connected to all terminals. Resets at PRD boundaries or between 180k–200k tokens via one-shot Maestri routines (only when zero open asks/orders exist).",
+        cmd: "claude --model claude-opus-5-5 --effort medium --permission-mode auto --remote-control \"Manager\""
+      },
+      Reviewer: {
+        title: "Blind Reviewer (Gemini Pool)",
+        model: "AGY Gemini 4 Argon (medium)",
+        roleFile: "board/core.md + board/explorer.md",
+        desc: "Provides an independent, blind second opinion on architectural trade-offs before the Manager escalates a decision to the Human, and pairs with Codex for blind dual research.",
+        skills: [
+          "Blind trade-off critique on plan.md and epic decisions",
+          "Dual blind research (Gemini × Codex with zero cross-reading)",
+          "3rd-voter tie-breaking on golden-set classification"
+        ],
+        reset: "Recruited via maestri recruit --replace before each blind review or dual research run.",
+        cmd: "python3 scripts/agy-trust.py\nmaestri recruit \"Reviewer\" --preset \"Antigravity\" \\\n  --command \"agy --mode auto --settings board/settings/agy-settings.json --model gemini-4-argon-medium\" \\\n  --role \"Explorer\" --dir <PROJECT_DIR>"
+      },
+      Explorer: {
+        title: "Explorer Terminal (Discovery, PRD & Ship)",
+        model: "AGY Gemini 4 Neon (high) / Sonnet 5.5",
+        roleFile: "board/core.md + board/explorer.md",
+        desc: "Maps existing codebase symbols and file:line evidence before planning, authors executable PRDs, verifies all cited paths/symbols, and executes /prd-ship archival once deployed.",
+        skills: [
+          "/prd, /verify-claims, /prd-ship, /epic-ship",
+          "/audit-codebase, /product-eval",
+          "scripts/order.py (start, report)"
+        ],
+        reset: "Connected to Manager. Reset via maestri recruit --replace between PRDs and between sequential close-out orders.",
+        cmd: "maestri recruit \"Explorer\" --preset \"Antigravity\" \\\n  --command \"agy --mode auto --settings board/settings/agy-settings.json --model gemini-4-neon-high\" \\\n  --role \"Explorer\" --dir <PROJECT_DIR>"
+      },
+      Designer: {
+        title: "Designer Terminal (Static HTML Previews)",
+        model: "Codex GPT-6.1 Sol (medium)",
+        roleFile: "board/core.md + board/designer.md",
+        desc: "Receives problem, goal, and user constraints (never a pre-baked solution) and produces 2–3 static HTML visual options using real brand palette tokens (never grey wireframe bars).",
+        skills: [
+          "/design-decide, /ui-ux-analysis",
+          "templates/design/anti-slop.md & templates/design/taste-rules.md",
+          "scripts/order.py (start, report)"
+        ],
+        reset: "Connected to Manager. Reset at PRD boundary.",
+        cmd: "maestri recruit \"Designer\" --preset \"Codex\" \\\n  --command 'codex -p maestri -m gpt-6.1-sol -c model_reasoning_effort=\"medium\" --approve-for-me' \\\n  --role \"Designer\" --dir <PLANNING_DIR>"
+      },
+      Writer: {
+        title: "Writer Terminal (UX Copy & Humanizer)",
+        model: "AGY Gemini 4 Neon (high) / Sonnet 5.5",
+        roleFile: "board/core.md + board/writer.md",
+        desc: "Drafts and audits UI copy, empty/error states, and documentation against the project's brand voice and domain vocabulary, stripping AI tells via /humanizer.",
+        skills: [
+          "/humanizer, /humanizer-compact, /concise-output",
+          "templates/voice/brand-voice.md & templates/voice/project-sheet.md",
+          "scripts/order.py (start, report)"
+        ],
+        reset: "Connected to Manager. Any pending A/B copy options are written to disk before terminal reset.",
+        cmd: "maestri recruit \"Writer\" --preset \"Antigravity\" \\\n  --command \"agy --mode auto --settings board/settings/agy-settings.json --model gemini-4-neon-high\" \\\n  --role \"Writer\" --dir <PROJECT_DIR>"
+      },
+      DevFront: {
+        title: "Dev Front Terminal (Frontend TDD & Design Port)",
+        model: "Codex GPT-6.1 Sol (medium)",
+        roleFile: "board/core.md + board/dev.md",
+        desc: "Executes 1 Part 2 phase per ORDER on branch prd/<n>-<slug>. Builds Design System components first, measures skeleton vs loaded heights to prevent layout shift, commits, and records cryptographic test proof.",
+        skills: [
+          "/prd-run, /design-port, /verify-ui, /commit",
+          "scripts/qa-proof.py record & scripts/order.py (start, report)"
+        ],
+        reset: "Connected to Manager AND directly to QA (maestri connect \"QA\" \"Dev Front\"). Reset before each new PRD phase; stays in context for same-phase HOLD fixes.",
+        cmd: "maestri recruit \"Dev Front\" --preset \"Codex\" \\\n  --command 'codex -p maestri -m gpt-6.1-sol -c model_reasoning_effort=\"medium\" --approve-for-me' \\\n  --role \"Dev\" --dir <PROJECT_DIR>/web\nmaestri connect \"QA\" \"Dev Front\""
+      },
+      DevBack: {
+        title: "Dev Back Terminal (Backend TDD & APIs)",
+        model: "Codex GPT-6.1 Sol (medium)",
+        roleFile: "board/core.md + board/dev.md",
+        desc: "Executes backend phases in server/ with strict TDD (≥70% coverage), schema validation, and clean container teardown, finishing every phase with qa-proof.py record.",
+        skills: [
+          "/prd-run, /infra-preflight, /commit",
+          "scripts/qa-proof.py record & scripts/order.py (start, report)"
+        ],
+        reset: "Connected to Manager AND directly to QA (maestri connect \"QA\" \"Dev Back\"). Reset before each new PRD phase.",
+        cmd: "maestri recruit \"Dev Back\" --preset \"Codex\" \\\n  --command 'codex -p maestri -m gpt-6.1-sol -c model_reasoning_effort=\"medium\" --approve-for-me' \\\n  --role \"Dev\" --dir <PROJECT_DIR>/server\nmaestri connect \"QA\" \"Dev Back\""
+      },
+      QA: {
+        title: "QA Terminal (3-Stage Verification & Browser Portal)",
+        model: "Claude Sonnet 5.5 · --chrome",
+        roleFile: "board/core.md + board/qa.md + board/qa-manual.md",
+        desc: "Runs Stage A1 (machine review), Stage A2 (verifies qa-proof.py JSON without re-running full suite + runs diff tests & mutation tests), and Stage B (live browser inspection at 375/768/1280px in Maestri Portal).",
+        skills: [
+          "/prd-ship (references/review.md & references/qa.md), /verify-ui, /prd-demo",
+          "scripts/qa-proof.py verify & scripts/order.py (start, report)"
+        ],
+        reset: "Connected to Manager, Dev Front, and Dev Back. Sends HOLD findings directly to Devs; wakes Manager only on PASS, 3rd loop, product decision, or ceiling.",
+        cmd: "maestri recruit \"QA\" --preset \"Claude Code\" \\\n  --command \"claude --model claude-sonnet-5-5 --permission-mode auto --disallowedTools SendMessage --chrome --strict-mcp-config --settings board/settings/qa-settings.json\" \\\n  --role \"QA\" --dir <PROJECT_DIR>"
+      },
+      Rollout: {
+        title: "Rollout Terminal (Infra Preflight & Prod Read-Only)",
+        model: "Claude Sonnet 5.5 + prod-guard.py",
+        roleFile: "board/core.md + board/rollout.md + board/rollout-manual.md",
+        desc: "Executes /infra-preflight before Dev starts when Infra: yes, and verifies post-deploy health/endpoints after Human push. Connected to the Human's VPS terminal under strict read-only prod-guard.py rules.",
+        skills: [
+          "/infra-preflight",
+          "hooks/prod-guard.py & scripts/order.py (start, report)"
+        ],
+        reset: "Connected to Manager and Human VPS terminal. Reset at PRD boundary.",
+        cmd: "maestri recruit \"Rollout\" --preset \"Claude Code\" \\\n  --command \"claude --model claude-sonnet-5-5 --permission-mode auto --disallowedTools SendMessage --settings board/settings/rollout-settings.json\" \\\n  --role \"Rollout\" --dir <PROJECT_DIR>"
+      }
+    };
+
+    const STAGE_DATA = [
+      {
+        owner: "Owner: Manager + Explorer + Designer + Human",
+        title: "Stage 1 — Discovery & 1-Page Plan (`plan.md`)",
+        summary: "When the Human shares an idea, the Manager does not dispatch Devs. It runs /grill-me, asks Explorer what already exists in the codebase, asks Designer for 2–3 static HTML options (when UI changes), and locks a 1-page plan.md approved by the Human.",
+        gates: [
+          "1–2 file bug without product decisions bypasses plan.md/PRD and goes straight to Dev + full QA.",
+          "Explorer must prove non-duplication with grep/file:line before any new component or endpoint is proposed.",
+          "Designer receives problem + constraints (not the solution) and uses real brand palette tokens."
+        ],
+        incident: "Paid for on 2026-11-04 (Manager dispatched Devs during planning, creating duplicate PRD #195) and 2026-11-07 (PRD #198 built and thrown away because Manager skipped checking existing Admin components).",
+        code: "# 1-page plan stored on disk before writing the PRD:\nplanning/<project>/runs/<slug>/plan.md\nplanning/<project>/runs/<slug>/decisions.md\n\n# If UI changes, Designer writes static HTML options:\nplanning/<project>/design/<slug>/option-a.html\nplanning/<project>/design/<slug>/option-b.html"
+      },
+      {
+        owner: "Owner: Explorer → Manager Gate",
+        title: "Stage 2 — Executable PRD (`/prd` + `/verify-claims`)",
+        summary: "Explorer writes the PRD from the approved plan.md: Overview (delta, not story), Scope, Must Not Happen, Non-Duplication Evidence, Part 2 TDD Phases, Part 3 Quality Checks, and Part 4 QA.",
+        gates: [
+          "/verify-claims checks every cited file path, line number, symbol, and command against HEAD.",
+          "Independent read verifies that batch decisions match the 'Must Not Happen' assertions (no inverted negation).",
+          "Any deviation from Human decisions must escalate to the Human before Manager marks Status: Ready."
+        ],
+        incident: "Paid for on 2026-11-08 (Manager approved 3 silent deviations in #198) and 2026-11-15 (Explorer inverted M11/M13 negations inside 'Must Not Happen' on #218 and #221).",
+        code: "# Explorer verifies all claims before reporting Ready:\n# Every symbol and path in Technical Detail is checked against git HEAD.\nplanning/<project>/ready/2026-11-18-search-summary-bar_prd.md\n\n# Registered in the single queue of truth:\nplanning/<project>/progress.md"
+      },
+      {
+        owner: "Owner: Manager (`scripts/order.py`)",
+        title: "Stage 3 — Cryptographically Sealed Order (`order.py open`)",
+        summary: "Before sending any `maestri ask` to a worker, the Manager must open an on-disk ORDER file sealed with SHA-256 and backed by an exact quoted string from the Human in authorization.md.",
+        gates: [
+          "order.py open fails if --authorization does not match a literal quoted string (>=15 chars) in runs/<prd>/authorization.md.",
+          "Lines marked [closed] or queue ordering in progress.md cannot authorize an ORDER.",
+          "Parallel reports serialize via fcntl.flock on .order.lock; after any reset, order.py reconcile blocks duplicate dispatch."
+        ],
+        incident: "Paid for on 2026-11-16 (sprint launched 4 hours early at 19:40 instead of midnight; parallel reports lost external effect entries without flock).",
+        code: "# 1. Human quote recorded in runs/230/authorization.md:\n2026-11-18 22:10 — \"Execute #230 Phase A in /design-system and Phase B in JobsWorkspace\"\n\n# 2. Manager opens sealed order before maestri ask:\npython3 scripts/order.py open \\\n  --prd 230 --id 230-A --owner \"Dev Front\" \\\n  --scope \"Phase A: StatsBar summary variant in /design-system\" \\\n  --authorization \"Execute #230 Phase A in /design-system and Phase B in JobsWorkspace\" \\\n  --repo <PROJECT_DIR>"
+      },
+      {
+        owner: "Owner: Dev Front / Dev Back (`scripts/qa-proof.py`)",
+        title: "Stage 4 — Phased TDD Execution & Cryptographic QA Proof",
+        summary: "Devs switch to `prd/<n>-<slug>`, run `order.py start`, implement one phase with RED → GREEN → REFACTOR (≥70% coverage), commit in English without bypassing hooks, and record a git-bound test proof.",
+        gates: [
+          "UI components land in /design-system first (Phase A) with identical pixel height across loading skeleton, loaded, and error states.",
+          "qa-proof.py record hashes commit + tree + merge-base + dirty_sha256 (null when clean) + tracked dependency lockfiles.",
+          "If running the test suite dirties the working tree, qa-proof.py record aborts immediately."
+        ],
+        incident: "Paid for on 2026-11-14 (annotated test flake broke pre-push) and #209 (naive diff hash produced the SHA of empty string on any clean git tree).",
+        code: "python3 scripts/order.py start --prd 230 --id 230-A --owner \"Dev Front\"\n\n# After committing code, record cryptographic test proof:\npython3 scripts/qa-proof.py record \\\n  --prd 230 --order 230-A --base main \\\n  --gate A2=executed \\\n  --out planning/<project>/runs/230/qa-proof-front.json \\\n  -- npm test -- stats-bar design-system\n\npython3 scripts/order.py report --prd 230 --id 230-A --owner \"Dev Front\" \\\n  --status completed --evidence \"runs/230/qa-proof-front.json\" --next \"QA · 230-QA-A\""
+      },
+      {
+        owner: "Owner: QA ⇄ Dev Direct Cord",
+        title: "Stage 5 — 3-Stage QA (A1, A2, B) & Direct HOLD Loop",
+        summary: "QA verifies the branch across Stage A1 (machine cross-family review when A1: yes), Stage A2 (verifies qa-proof.py JSON + runs diff tests and 1 mutation per constraint boundary), and Stage B (live Maestri Portal browser at 375/768/1280px).",
+        gates: [
+          "QA does not re-run the entire test suite in A2; it runs `qa-proof.py verify` + diff tests + scratch mutation tests.",
+          "In Stage B, QA measures DOM geometry (`getBoundingClientRect`, `scrollWidth`) and checks human intent, not just CSS rules.",
+          "On HOLD, QA messages Dev directly via `maestri ask`. Manager only intervenes on PASS, a product decision, the 3rd loop, or ceiling."
+        ],
+        incident: "Paid for on 2026-11-16 (Manager approved a 390px screenshot with a generic 3-line skeleton that caused layout shift) and 2026-11-18 (direct QA⇄Dev cord cut Manager round-trips in half).",
+        code: "# QA Stage A2 verification:\npython3 scripts/qa-proof.py verify planning/<project>/runs/230/qa-proof-front.json\n# -> {\"valid\": true, \"changed\": [], \"unexecuted_gates\": {}}\n\n# If HOLD: QA sends ORDER directly to Dev Front over the QA<->Dev cord.\n# If PASS: QA ticks Part 3 [x] and Part 4 [x] in the PRD and reports PASS to Manager."
+      },
+      {
+        owner: "Owner: Manager + Human + Explorer",
+        title: "Stage 6 — Delivery, Merge, `/prd-ship` & `/canvas-retro` Kaizen",
+        summary: "Manager inspects screenshots against CLAUDE.md UI invariants, presents a plain-language Before/After table to the Human, merges after Human OK, waits for Human `git push`, dispatches Explorer for `/prd-ship`, and closes the session with `/canvas-retro`.",
+        gates: [
+          "Close-out checks `docker ps -a --filter status=exited` so leaked test containers become Dev bug orders, never manual cleanup.",
+          "Explorer archives the PRD, updates progress.md, history.md, and epic rollups, and commits planning/ locally.",
+          "/canvas-retro enforces a net-zero line budget (line balance <= 0) on core.md (<=500 words) and role files (<=400 words). Long war stories go to cases.md."
+        ],
+        incident: "Paid for on 2026-11-18 (test suite leaked 46 exited Docker containers and 9 GB of cache over 4 days without detection).",
+        code: "# Check word budgets after Kaizen rule updates:\npython3 scripts/compile-board.py --check-budgets\n\n# Verify 3-layer prompt parity (board/*.md -> role.json -> CLAUDE.md):\npython3 scripts/role-check.py\n\n# Attribute token & API-equivalent USD cost for the shipped PRD:\npython3 scripts/prd-cost.py 230"
+      }
+    ];
+
+    const ROUTING_DATA = {
+      multi: [
+        {
+          role: "Manager",
+          primary: "Claude Code · claude-opus-5-5 (effort medium, Maestro)",
+          fallback: "One-shot routine at 5h quota reset time",
+          behavior: "Orchestrates board, synthesizes blind dual research, enforces gates"
+        },
+        {
+          role: "Explorer & Writer",
+          primary: "Antigravity · gemini-4-neon-high",
+          fallback: "AGY gemini-4-argon-medium → Claude Sonnet 5.5",
+          behavior: "Codebase discovery, /prd, /verify-claims, /prd-ship, /humanizer"
+        },
+        {
+          role: "Designer",
+          primary: "Codex · gpt-6.1-sol (medium)",
+          fallback: "Antigravity · gemini-4-neon-high",
+          behavior: "2–3 static HTML options + 3rd blind labeler in golden-set trios"
+        },
+        {
+          role: "Dev Front & Dev Back",
+          primary: "Codex · gpt-6.1-sol (medium)",
+          fallback: "Antigravity · claude-sonnet-5-5-high (records fallback timestamp in PRD)",
+          behavior: "Phased TDD execution + qa-proof.py record; cross-family A1 review"
+        },
+        {
+          role: "QA",
+          primary: "Claude Code · claude-sonnet-5-5 (--chrome)",
+          fallback: "Waits for Chrome MCP window if browser Stage B is required",
+          behavior: "A1 machine review (or codex review when Dev ran on Claude), A2 proof, B Portal"
+        },
+        {
+          role: "Blind Reviewer",
+          primary: "Antigravity · gemini-4-argon-medium",
+          fallback: "Codex · gpt-6.1-sol (isolated session)",
+          behavior: "Pairs with Codex for blind dual discovery; challenges Manager trade-offs"
+        }
+      ],
+      single: [
+        {
+          role: "Manager",
+          primary: "Configured CLI · High Tier (e.g. claude-opus-5-5)",
+          fallback: "Scheduled Maestri one-shot routine on window renewal",
+          behavior: "Identical single-leader governance & order.py enforcement"
+        },
+        {
+          role: "Explorer & Writer",
+          primary: "Configured CLI · Medium Tier (e.g. claude-sonnet-5-5)",
+          fallback: "Same CLI · Secondary quota pool",
+          behavior: "Full /prd, /verify-claims, /prd-ship, and /humanizer workflows"
+        },
+        {
+          role: "Designer",
+          primary: "Configured CLI · Medium Tier",
+          fallback: "Same CLI · Secondary quota pool",
+          behavior: "Generates 2–3 static HTML previews from problem brief"
+        },
+        {
+          role: "Dev (Unified or Split)",
+          primary: "Configured CLI · Medium Tier",
+          fallback: "Same CLI · High Tier on 2nd retry",
+          behavior: "Phased TDD + qa-proof.py record on branch prd/<n>"
+        },
+        {
+          role: "QA",
+          primary: "Configured CLI · Browser Tier (--chrome / Maestri Portal)",
+          fallback: "Playwright / DOM fallback via /verify-ui",
+          behavior: "Runs Stage A1 in fresh isolated context, A2 proof verify, Stage B UI check"
+        },
+        {
+          role: "Blind Reviewer",
+          primary: "Configured CLI · Medium Tier (Fresh Isolated Context)",
+          fallback: "N/A (stateless per-invocation session)",
+          behavior: "Dual research runs across two isolated sessions reading the same on-disk brief"
+        }
+      ]
+    };
+
+    // Tab switching
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".view-panel").forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+
+    // Theme switching
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      const root = document.documentElement;
+      root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+    });
+
+    // View 1: Node Inspector
+    function renderNode(key) {
+      const d = NODE_DATA[key];
+      if (!d) return;
+      document.getElementById("inspTitle").textContent = d.title;
+      document.getElementById("inspModel").textContent = d.model;
+      document.getElementById("inspRoleFile").textContent = d.roleFile;
+      document.getElementById("inspDesc").textContent = d.desc;
+      const ul = document.getElementById("inspSkills");
+      ul.innerHTML = "";
+      d.skills.forEach((s) => {
+        const li = document.createElement("li");
+        li.textContent = s;
+        ul.appendChild(li);
+      });
+      document.getElementById("inspReset").textContent = d.reset;
+      document.getElementById("inspCmd").textContent = d.cmd;
+    }
+
+    document.querySelectorAll(".node-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        document.querySelectorAll(".node-card").forEach((c) => c.classList.remove("selected"));
+        card.classList.add("selected");
+        renderNode(card.dataset.node);
+      });
+    });
+
+    // View 2: Lifecycle Stages
+    function renderStage(idx) {
+      const s = STAGE_DATA[idx];
+      if (!s) return;
+      document.getElementById("stageOwnerBadge").textContent = s.owner;
+      document.getElementById("stageTitle").textContent = s.title;
+      document.getElementById("stageSummary").textContent = s.summary;
+      const ul = document.getElementById("stageGates");
+      ul.innerHTML = "";
+      s.gates.forEach((g) => {
+        const li = document.createElement("li");
+        li.textContent = g;
+        ul.appendChild(li);
+      });
+      document.getElementById("stageIncident").textContent = s.incident;
+      document.getElementById("stageCode").textContent = s.code;
+    }
+
+    document.querySelectorAll(".step-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".step-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderStage(Number(btn.dataset.stage));
+      });
+    });
+
+    // View 3: Routing Table
+    function renderRouting(mode) {
+      const rows = ROUTING_DATA[mode] || [];
+      const tbody = document.getElementById("routingTableBody");
+      tbody.innerHTML = "";
+      rows.forEach((r) => {
+        const tr = document.createElement("tr");
+        [r.role, r.primary, r.fallback, r.behavior].forEach((val, i) => {
+          const td = document.createElement("td");
+          if (i === 0) td.style.fontWeight = "700";
+          if (i === 1) td.style.fontFamily = "var(--font-mono)";
+          td.textContent = val;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.querySelectorAll(".mode-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".mode-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderRouting(btn.dataset.routing);
+      });
+    });
+
+    // Initial render
+    renderNode("Manager");
+    renderStage(0);
+    renderRouting("multi");
+  </script>
+</body>
+</html>
